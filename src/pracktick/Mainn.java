@@ -2,8 +2,7 @@ package pracktick;
 
 import java.util.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Mainn {
     public static void mainn(String[] args) {
         List<Employee> data = new ArrayList<>();
