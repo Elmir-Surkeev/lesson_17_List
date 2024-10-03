@@ -4,7 +4,11 @@ import java.util.Objects;
 public class Movies{
     private String name;
     private int year;
+    private Director director;
+    private List<CastMember> cast;
 
+    private int year_manufacture;
+    private String description;
     public int getYear() {
         return year;
     }
@@ -26,8 +30,6 @@ public class Movies{
         return Objects.hash(name, year_manufacture, description, director, cast);
     }
 
-    private int year_manufacture;
-    private String description;
 
     public String getName() {
         return name;
@@ -80,8 +82,6 @@ public class Movies{
                 '}';
     }
 
-    private Director director;
-    private List<CastMember> cast;
 
 
 }
