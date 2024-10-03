@@ -3,6 +3,12 @@ import java.util.Objects;
 public class CastMember {
     private String fullName;
     private String role;
+
+    public CastMember(String fullName, String role) {
+        this.fullName = fullName;
+        this.role = role;
+    }
+
     public String getFullName() {
         return fullName;
     }
