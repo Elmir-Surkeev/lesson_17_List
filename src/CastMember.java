@@ -3,7 +3,6 @@ import java.util.Objects;
 public class CastMember {
     private String fullName;
     private String role;
-
     public String getFullName() {
         return fullName;
     }
@@ -23,6 +22,9 @@ public class CastMember {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+    public String getFullname(){
+        return fullName;
     }
 
     public String getRole() {

@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         JSONFileHandler jsonFileHandler = new JSONFileHandler();
         List<Movies> movies = jsonFileHandler.getMovies();
-        HashSet<Movies> moviesHashSet = new HashSet<>(movies);
+        HashSet<Movies> moviesHashSet = new HashSet<>(jsonFileHandler.getMovies());
 
         try {
             boolean checkWorkWhile = true;
@@ -17,6 +17,8 @@ public class Main {
                         " введите 1 для просмотра всех фильмов \n" +
                         " введите 2 для просмотра по полному или частичному названию в фильмах \n" +
                         " введите 3 для сортировки коллекций фильмов по углубленному параметру \n" +
+                        " введите 4 для поиска фильмов по актеру \n" +
+                        " введите 5 для поиска фильмов по режиссеру" +
                         " введите 0 для завершения работы программы");
                 int choice = sc.nextInt();
                 switch (choice) {
@@ -101,6 +103,30 @@ public class Main {
                                 System.out.println("Выходит ошибка может проверите корректность введенных данных");
                         }
                         break;
+                    case 4:
+                        System.out.println("Введите любимого актера");
+                        String favoriteActor = sc.next().toLowerCase();
+                        for (Movies movieActor : moviesHashSet){
+                           for (CastMember castMember: movieActor.getCast()){
+                               if(castMember.getFullname().toLowerCase().contains(favoriteActor));
+                               System.out.println("Фильмы с вашим актёром: " + movieActor.getName());
+                               break;
+                           }
+                        }
+                        break;
+                    case 5:
+                        System.out.println("Введите имя режиссера");
+                        String nameDirector = sc.next().toLowerCase();
+                        MovieSearcher searchMovie = new MovieSearcher(movies);
+                        Map<String, List<String>> foundMovies = searchMovie.findMovieByDirector(nameDirector);
+                        if (foundMovies.isEmpty()){
+                            System.out.println("Фильмы не найдены с режиссером %s".formatted(nameDirector));
+                        }else {
+                            for (Map.Entry<String, List<String>> entry: foundMovies.entrySet()){
+                                System.out.println("Фильм: " + entry.getKey());
+                                System.out.println("Актеры: " + entry.getValue());
+                            }
+                        }
                 }
             }
         } catch (Exception e) {
