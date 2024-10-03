@@ -20,6 +20,7 @@ public class Main {
                         " введите 4 для поиска фильмов по актеру \n" +
                         " введите 5 для поиска фильмов по режиссеру \n" +
                         " введите 6 для поиска фильмов по году выпуска \n" +
+                        " введите 7 для поиска фильмов по актеру \n" +
                         "в" +
                         " введите 0 для завершения работы программы");
                 int choice = sc.nextInt();
@@ -145,6 +146,20 @@ public class Main {
                         }
                         if (checkOld){
                            System.out.println("Фильмы отсутствуют по поиску");
+                        }
+                        break;
+                    case 7:
+                        System.out.println("Введите имя актера");
+                        String nameActor = sc.next().toLowerCase();
+                        MovieSearcher searchMovies = new MovieSearcher(movies);
+                        Map<String, List<String>> foundMovie = searchMovies.findMovieByActor(nameActor);
+                        if (foundMovie.isEmpty()){
+                            System.out.println("Фильмы не найдены с актером %s".formatted(nameActor));
+                        }else {
+                            for (Map.Entry<String, List<String>> entry: foundMovie.entrySet()){
+                                System.out.println("Фильм: " + entry.getKey());
+                                System.out.println("Роль: " + entry.getValue());
+                            }
                         }
                         break;
                 }

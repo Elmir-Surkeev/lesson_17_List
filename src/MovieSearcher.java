@@ -23,4 +23,21 @@ public class MovieSearcher {
         }
         return result;
     }
+    public Map<String, List<String>> findMovieByActor(String actorName){
+        Map<String, List<String>> result = new HashMap<>();
+
+        for (Movies movie : movies) {
+            for (CastMember castMember: movie.getCast()){
+                if (castMember.getFullname().toLowerCase().contains(actorName)){
+                    String movieName = movie.getName();
+                    List<String> roles = movie.getCast().stream()
+                            .map(CastMember::getFullName)
+                            .toList();
+                    result.put(movieName, roles);
+
+                }
+            }
+        }
+        return result;
+    }
 }
