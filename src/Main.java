@@ -18,7 +18,9 @@ public class Main {
                         " введите 2 для просмотра по полному или частичному названию в фильмах \n" +
                         " введите 3 для сортировки коллекций фильмов по углубленному параметру \n" +
                         " введите 4 для поиска фильмов по актеру \n" +
-                        " введите 5 для поиска фильмов по режиссеру" +
+                        " введите 5 для поиска фильмов по режиссеру \n" +
+                        " введите 6 для поиска фильмов по году выпуска \n" +
+                        "в" +
                         " введите 0 для завершения работы программы");
                 int choice = sc.nextInt();
                 switch (choice) {
@@ -127,6 +129,24 @@ public class Main {
                                 System.out.println("Актеры: " + entry.getValue());
                             }
                         }
+                        break;
+                    case 6:
+                        System.out.println("Введите год выпуска");
+                        int yearRealise = sc.nextInt();
+                        boolean checkOld = true;
+                        for (Movies moviesYearRealise: movies){
+                            if (yearRealise < 2025 && moviesYearRealise.getYear() == yearRealise){
+                                System.out.println("Фильм : %s ".formatted(moviesYearRealise.getName()));
+                                checkOld = false;
+                            }
+                        }
+                        if (yearRealise > 2024){
+                            System.out.println("Данные неккоректы");
+                        }
+                        if (checkOld){
+                           System.out.println("Фильмы отсутствуют по поиску");
+                        }
+                        break;
                 }
             }
         } catch (Exception e) {
