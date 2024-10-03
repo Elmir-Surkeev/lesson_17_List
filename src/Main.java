@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class Main {
@@ -8,7 +7,28 @@ public class Main {
 
         List<Movies> movies = jsonFileHandler.getMovies();
 
-        System.out.println(movies.toString());
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Введите название для поиска");
+        String nameSearch = sc.nextLine().toLowerCase();
+
+        System.out.println("Результаты пойска");
+        boolean found = false;
+
+
+        for (Movies movie :movies){
+            System.out.println("Film : %s".formatted(movie.getName()));
+            if (movie.getName().toLowerCase().contains(nameSearch)){
+                System.out.println("Название: " + movie.getName());
+                System.out.println("Год выпуска: " + movie.getYear());
+                System.out.println("Описание: " + movie.getDescription());
+                System.out.println();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Ничего по запросу - %s".formatted(nameSearch));
+        }
 
     }
 }

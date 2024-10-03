@@ -1,10 +1,24 @@
+import java.util.Objects;
+
 public class CastMember {
     private String fullName;
     private String role;
 
-    // Геттеры и сеттеры
     public String getFullName() {
         return fullName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CastMember that = (CastMember) o;
+        return Objects.equals(fullName, that.fullName) && Objects.equals(role, that.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, role);
     }
 
     public void setFullName(String fullName) {

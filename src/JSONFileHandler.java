@@ -12,9 +12,8 @@ public class JSONFileHandler {
 
         Type mapType = new TypeToken<Map<String, List<Movies>>>(){}.getType();
         try (FileReader reader = new FileReader("movies.json")) {
-            // Чтение и парсинг JSON в карту, где ключ - "movies", а значение - список фильмов
             Map<String, List<Movies>> movieMap = gson.fromJson(reader, mapType);
-            return movieMap.get("movies"); // Возвращаем список фильмов
+            return movieMap.get("movies");
         } catch (Exception e) {
             e.printStackTrace();
         }

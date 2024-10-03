@@ -1,9 +1,31 @@
-import pracktick.Director;
-
 import java.util.List;
+import java.util.Objects;
 
-public class Movies {
+public class Movies{
     private String name;
+    private int year;
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movies movies = (Movies) o;
+        return year_manufacture == movies.year_manufacture && Objects.equals(name, movies.name) && Objects.equals(description, movies.description) && Objects.equals(director, movies.director) && Objects.equals(cast, movies.cast);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, year_manufacture, description, director, cast);
+    }
+
     private int year_manufacture;
     private String description;
 
