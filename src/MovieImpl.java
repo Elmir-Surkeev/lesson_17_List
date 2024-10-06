@@ -10,6 +10,7 @@ public class MovieImpl implements Movible{
     }
     @Override
     public int getInt(Scanner sc, String sentence)throws Exception{
+        System.out.println("(Вводите число)\n %s".formatted(sentence));
         int count = sc.nextInt();
         return count;
     }
