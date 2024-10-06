@@ -1,10 +1,7 @@
-import cats.kernel.Hash;
-
-import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args)throws Exception{
        Action action = new Action();
-       action.start();
+            action.start();
     }
 }

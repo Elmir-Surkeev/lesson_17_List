@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Action {
-    public static void start() {
+    public static void start() throws Exception {
         try {
             JSONFileHandler jsonFileHandler = new JSONFileHandler();
             List<Movies> movies = jsonFileHandler.getMovies();
@@ -11,18 +11,17 @@ public class Action {
             boolean checkWorkWhile = true;
             while (checkWorkWhile) {
                 Scanner sc = new Scanner(System.in);
-                System.out.println("Добрый день уважаемый киноман \n" +
-                        " введите 1 для просмотра всех фильмов \n" +
-                        " введите 2 для просмотра по полному или частичному названию в фильмах \n" +
-                        " введите 3 для сортировки коллекций фильмов по углубленному параметру \n" +
-                        " введите 4 для поиска фильмов по актеру \n" +
-                        " введите 5 для поиска фильмов по режиссеру \n" +
-                        " введите 6 для поиска фильмов по году выпуска \n" +
-                        " введите 7 для поиска фильмов по актеру \n" +
-                        " введите 8 для списка актеров и всех фильмов с указанием их ролей \n" +
-                        " введите 0 для завершения работы программы");
+                int choice = movieImpl.getInt(sc, "Добрый день уважаемый киноман\n" +
+                        "введите 1 для просмотра всех фильмов\n" +
+                        "введите 2 для поиска по названию\n" +
+                        "введите 3 для сортировки фильмов по параметру\n" +
+                        "введите 4 для поиска фильмов по актёру\n" +
+                        "введите 5 для поиска фильмов по режиссёру\n" +
+                        "введите 6 для поиска фильмов по году выпуска\n" +
+                        "введите 7 для поиска фильмов по актёру\n" +
+                        "введите 8 для списка актёров и фильмов с их ролями\n" +
+                        "введите 0 для завершения работы программы");
 
-                int choice = sc.nextInt();
 
                 switch (choice) {
                     case 0:
@@ -56,17 +55,15 @@ public class Action {
                         break;
                     case 3:
                         try {
-                            System.out.println("Киноман, у нас для тебя есть несколько выбора сортировки смотри \n" +
-                                    " введи 1 для сортировки по году выпуска \n" +
-                                    " введи 2 для сортировки по полному названию \n" +
-                                    " введи 3 для сортировки по любимому режиссеру \n" +
-                                    "(можешь писать не учитывая регистры");
-                            int choiceSort = sc.nextInt();
+                            int choiceSort = movieImpl.getInt(sc, "Киноман, у нас для тебя есть несколько выбора сортировки смотри \n" +
+                                                                            "\" введи 1 для сортировки по году выпуска+\n" +
+                                                                            "\" введи 2 для сортировки по полному названию\n" +
+                                                                            "\" введи 3 для сортировки по любимому режиссеру\n" +
+                                                                            "\"(можешь писать не учитывая регистры");
                             switch (choiceSort) {
                                 case 1:
-                                    System.out.println("Введите 1 для сортировки по возрастанию \n" +
+                                    int choiceSortYear = movieImpl.getInt(sc, "Введите 1 для сортировки по возрастанию \n" +
                                             "введите 2 для сортировки по убыванию");
-                                    int choiceSortYear = sc.nextInt();
                                     if (choiceSortYear == 1) {
                                         movies.sort(Comparator.comparing(Movies::getYear));
                                         System.out.println("Фильмы по возрастанию года выпуска:");
@@ -119,9 +116,10 @@ public class Action {
                             String favoriteActor = movieImpl.getString(sc, "актера");
                             for (Movies movieActor : moviesHashSet) {
                                 for (CastMember castMember : movieActor.getCast()) {
-                                    if (castMember.getFullname().toLowerCase().contains(favoriteActor)) ;
-                                    System.out.println("Фильмы с вашим актёром: " + movieActor.getName());
-                                    break;
+                                    if (castMember.getFullname().toLowerCase().contains(favoriteActor)){
+                                        System.out.println("Фильмы с вашим актёром: " + movieActor.getName());
+                                        break;
+                                    }
                                 }
                             }
                         } catch (Exception e) {
@@ -131,8 +129,7 @@ public class Action {
                     case 5:
                         try {
                             String nameDirector = movieImpl.getString(sc, "имя режиссера");
-                            MovieSearcher searchMovie = new MovieSearcher(movies);
-                            Map<String, List<String>> foundMovies = searchMovie.findMovieByDirector(nameDirector);
+                            Map<String, List<String>> foundMovies = movieImpl.findMovieByDirector(nameDirector);
                             if (foundMovies.isEmpty()) {
                                 System.out.println("Фильмы не найдены с режиссером %s".formatted(nameDirector));
                             } else {
@@ -147,21 +144,25 @@ public class Action {
                         break;
                     case 6:
                         try {
-                            System.out.println("Введите год выпуска");
-                            int yearRealise = sc.nextInt();
-                            boolean checkOld = true;
-                            for (Movies moviesYearRealise : movies) {
-                                if (yearRealise < 2025 && moviesYearRealise.getYear() == yearRealise) {
-                                    System.out.println("Фильм : %s ".formatted(moviesYearRealise.getName()));
-                                    checkOld = false;
+                            int yearRealise = movieImpl.getInt(sc, "Введите год выпуска");
+                            if (yearRealise > 2024) {
+                                System.out.println("Данные некорректны. Год должен быть меньше 2025.");
+                            } else {
+                                boolean checkOld = true;
+                                for (Movies moviesYearRealise : movies) {
+                                    if (moviesYearRealise.getYear() == yearRealise) {
+                                        System.out.println("Фильм : %s ".formatted(moviesYearRealise.getName()));
+                                        checkOld = false;
+                                    }
+                                }
+                                if (checkOld) {
+                                    System.out.println("Фильмы отсутствуют по поиску.");
                                 }
                             }
                             if (yearRealise > 2024) {
-                                System.out.println("Данные неккоректы");
+                                System.out.println("Данные некорректны");
                             }
-                            if (checkOld) {
-                                System.out.println("Фильмы отсутствуют по поиску");
-                            }
+
                         } catch (Exception e) {
                             System.out.println("Ошибка при поиске фильмов по году: " + e.getMessage());
                         }
@@ -169,8 +170,7 @@ public class Action {
                     case 7:
                         try {
                             String nameActor = movieImpl.getString(sc, "актера");
-                            MovieSearcher searchMovies = new MovieSearcher(movies);
-                            Map<String, List<String>> foundMovie = searchMovies.findMovieByActor(nameActor);
+                            Map<String, List<String>> foundMovie = movieImpl.findMovieByActor(nameActor);
                             if (foundMovie.isEmpty()) {
                                 System.out.println("Фильмы не найдены с актером %s".formatted(nameActor));
                             } else {
@@ -185,8 +185,7 @@ public class Action {
                         break;
                     case 8:
                         try {
-                            MovieActorListener actorLister = new MovieActorListener(movies);
-                            Set<CastMember> sortedActors = actorLister.getUniqueActorsSorted();
+                            Set<CastMember> sortedActors = movieImpl.getUniqueActorsSorted();
                             System.out.println("Список всех актёров с их ролями:");
                             sortedActors.forEach(actor -> System.out.println(actor));
                             movies.sort(Comparator.comparing(Movies::getYear));
