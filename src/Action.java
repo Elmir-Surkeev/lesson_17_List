@@ -6,6 +6,7 @@ public class Action {
             JSONFileHandler jsonFileHandler = new JSONFileHandler();
             List<Movies> movies = jsonFileHandler.getMovies();
             HashSet<Movies> moviesHashSet = new HashSet<>(jsonFileHandler.getMovies());
+            MovieImpl movieImpl = new MovieImpl();
 
             boolean checkWorkWhile = true;
             while (checkWorkWhile) {
@@ -38,8 +39,7 @@ public class Action {
                         break;
                     case 2:
                         try {
-                            System.out.println("Введите название для поиска");
-                            String nameSearch = sc.next().toLowerCase();
+                            String nameSearch = movieImpl.getString(sc, "название для пойска");
                             boolean found = false;
                             for (Movies movieSearch : movies) {
                                 if (movieSearch.getName().toLowerCase().contains(nameSearch)) {
@@ -81,9 +81,8 @@ public class Action {
                                     }
                                     break;
                                 case 2:
-                                    System.out.println("Введите название для поиска");
-                                    String nameSearchFilter = sc.next().toLowerCase();
                                     boolean foundd = false;
+                                    String nameSearchFilter = movieImpl.getString(sc, "название для поиска");
                                     for (Movies movieSearch : movies) {
                                         if (movieSearch.getName().toLowerCase().contains(nameSearchFilter)) {
                                             System.out.println("Фильмы : %s".formatted(movieSearch.getName()));
@@ -95,10 +94,8 @@ public class Action {
                                     }
                                     break;
                                 case 3:
-                                    System.out.println("Введите имя режиссера");
-                                    String directorName = sc.next().toLowerCase();
                                     boolean foundDirector = false;
-
+                                    String directorName = movieImpl.getString(sc, "имя режиссера");
                                     for (Movies movie : movies) {
                                         if (movie.getDirector().getFullName().toLowerCase().contains(directorName)) {
                                             System.out.println("Фильмы с выбранным режиссёром: " + movie.getName());
@@ -119,8 +116,7 @@ public class Action {
                         break;
                     case 4:
                         try {
-                            System.out.println("Введите любимого актера");
-                            String favoriteActor = sc.next().toLowerCase();
+                            String favoriteActor = movieImpl.getString(sc, "актера");
                             for (Movies movieActor : moviesHashSet) {
                                 for (CastMember castMember : movieActor.getCast()) {
                                     if (castMember.getFullname().toLowerCase().contains(favoriteActor)) ;
@@ -134,8 +130,7 @@ public class Action {
                         break;
                     case 5:
                         try {
-                            System.out.println("Введите имя режиссера");
-                            String nameDirector = sc.next().toLowerCase();
+                            String nameDirector = movieImpl.getString(sc, "имя режиссера");
                             MovieSearcher searchMovie = new MovieSearcher(movies);
                             Map<String, List<String>> foundMovies = searchMovie.findMovieByDirector(nameDirector);
                             if (foundMovies.isEmpty()) {
@@ -173,8 +168,7 @@ public class Action {
                         break;
                     case 7:
                         try {
-                            System.out.println("Введите имя актера");
-                            String nameActor = sc.next().toLowerCase();
+                            String nameActor = movieImpl.getString(sc, "актера");
                             MovieSearcher searchMovies = new MovieSearcher(movies);
                             Map<String, List<String>> foundMovie = searchMovies.findMovieByActor(nameActor);
                             if (foundMovie.isEmpty()) {
